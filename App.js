@@ -6,8 +6,7 @@ export default function App() {
   const appName = "Summer 2004 Mobile";
   return (
     <View style={styles.container}>
-      <Header/>
-      <Text>Welcome to {appName}</Text>
+      <Header appName={appName}/>
       <StatusBar style="auto" />
     </View>
   );

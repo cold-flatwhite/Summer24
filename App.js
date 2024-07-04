@@ -9,6 +9,7 @@ export default function App() {
     <View style={styles.container}>
       <Header appName={appName}/>
       <Input/>
+      {/* <Text>{text}</Text> */}
       <StatusBar style="auto" />
     </View>
   );

@@ -1,7 +1,9 @@
-import { View, Text, TextInput, Button } from "react-native";
+import { View, Text, TextInput, Button, StyleSheet, Modal } from "react-native";
 import React, { useState } from "react";
 
-const Input = ({inputHandler}) => {
+
+const Input = ({inputHandler, isModalVisible}) => {
+
   const [text, setText] = useState("");
   const [blur, setBlur] = useState(false);
   function handleConfirm() {
@@ -9,10 +11,10 @@ const Input = ({inputHandler}) => {
     inputHandler(text);
   }
   return (
-    <View>
+    <Modal animationType="slide" visible = {isModalVisible}>
+    <View style={styles.container}>
       <TextInput
         autoFocus={true}
-        style={{ height: 40, borderColor: "gray", borderWidth: 5 }}
         placeholder="Type password"
         secureTextEntry={true}
         onBlur={() => {
@@ -35,7 +37,19 @@ const Input = ({inputHandler}) => {
         }}
       />
     </View>
+    </Modal>
+
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+});
+
 
 export default Input;

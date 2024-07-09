@@ -1,17 +1,18 @@
 import { View, Text, TextInput, Button } from "react-native";
 import React, { useState } from "react";
 
-const Input = () => {
+const Input = ({inputHandler}) => {
   const [text, setText] = useState("");
-  const [blur, setBlur] = useState(true);
-  function handleConfirm () {
+  const [blur, setBlur] = useState(false);
+  function handleConfirm() {
     console.log("user typed", text);
+    inputHandler(text);
   }
   return (
     <View>
       <TextInput
         autoFocus={true}
-        style={{ height: 40, borderColor: 'gray', borderWidth: 5}}
+        style={{ height: 40, borderColor: "gray", borderWidth: 5 }}
         placeholder="Type password"
         secureTextEntry={true}
         onBlur={() => {
@@ -22,15 +23,17 @@ const Input = () => {
         }}
         onChangeText={(newText) => {
           setText(newText);
-          setFocus(true);
         }}
-
+        autoCapitalize={true}
         value={text}
       />
       {blur && <Text>Thank you</Text>}
-      <Button title="confirm" onPress = {() => {
-        handleConfirm();
-      }} />
+      <Button
+        title="confirm"
+        onPress={() => {
+          handleConfirm();
+        }}
+      />
     </View>
   );
 };

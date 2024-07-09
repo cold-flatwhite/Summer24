@@ -1,10 +1,15 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, TextInput, View } from 'react-native';
+import Header from './Component/Header';
+import Input from './Component/Input';
 
 export default function App() {
+  const appName = "Summer 2004 Mobile";
   return (
     <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
+      <Header appName={appName}/>
+      <Input/>
+      {/* <Text>{text}</Text> */}
       <StatusBar style="auto" />
     </View>
   );

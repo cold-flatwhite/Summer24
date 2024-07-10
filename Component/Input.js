@@ -7,9 +7,11 @@ const Input = ({ inputHandler, isModalVisible, cancelHandler }) => {
   function handleConfirm() {
     console.log("user typed", text);
     inputHandler(text);
+    setText("");
   }
   function handleCancel() {
     cancelHandler();
+    setText("");
   }
   return (
     <Modal animationType="slide" visible={isModalVisible}>

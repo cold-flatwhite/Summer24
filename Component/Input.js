@@ -1,12 +1,15 @@
 import { View, Text, TextInput, Button, StyleSheet, Modal } from "react-native";
 import React, { useState } from "react";
 
-const Input = ({ inputHandler, isModalVisible }) => {
+const Input = ({ inputHandler, isModalVisible, cancelHandler }) => {
   const [text, setText] = useState("");
   const [blur, setBlur] = useState(false);
   function handleConfirm() {
     console.log("user typed", text);
     inputHandler(text);
+  }
+  function handleCancel() {
+    cancelHandler();
   }
   return (
     <Modal animationType="slide" visible={isModalVisible}>
@@ -33,6 +36,12 @@ const Input = ({ inputHandler, isModalVisible }) => {
             title="confirm"
             onPress={() => {
               handleConfirm();
+            }}
+          />
+          <Button
+            title="cancel"
+            onPress={() => {
+              handleCancel();
             }}
           />
         </View>

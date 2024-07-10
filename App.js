@@ -1,5 +1,12 @@
 import { StatusBar } from "expo-status-bar";
-import { Button, SafeAreaView, StyleSheet, Text, TextInput, View } from "react-native";
+import {
+  Button,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from "react-native";
 import Header from "./Component/Header";
 import Input from "./Component/Input";
 import { useState } from "react";
@@ -15,10 +22,13 @@ export default function App() {
     setReceivedText(data);
     setModalVisible(false);
   }
+  function handleCancel() {
+    setModalVisible(false);
+  }
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style = {styles.topContainer}>
+      <View style={styles.topContainer}>
         <Header appName={appName} />
         <Button
           title="Add a goal"
@@ -27,8 +37,12 @@ export default function App() {
           }}
         />
       </View>
-      <View style = {styles.bottomContainer}>
-        <Input inputHandler={handleInputData} isModalVisible={modalVisible} />
+      <View style={styles.bottomContainer}>
+        <Input
+          inputHandler={handleInputData}
+          isModalVisible={modalVisible}
+          cancelHandler={handleCancel}
+        />
         <Text style={styles.textStyle}>{receivedText}</Text>
       </View>
 
@@ -47,16 +61,16 @@ const styles = StyleSheet.create({
   textStyle: {
     color: "darkmagenta",
   },
-  topContainer : {
-    flex : 1,
-    backgroundColor : "red",
-    alignItems : 'center',
-    justifyContent : 'center'
+  topContainer: {
+    flex: 1,
+    backgroundColor: "red",
+    alignItems: "center",
+    justifyContent: "center",
   },
-  bottomContainer : {
-    flex : 4,
-    backgroundColor : "yellow",
-    alignItems : "center",
-    justifyContent : 'center'
-  }
+  bottomContainer: {
+    flex: 4,
+    backgroundColor: "yellow",
+    alignItems: "center",
+    justifyContent: "center",
+  },
 });

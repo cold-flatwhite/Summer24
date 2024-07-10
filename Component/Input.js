@@ -31,17 +31,17 @@ const Input = ({ inputHandler, isModalVisible, cancelHandler }) => {
           value={text}
         />
         {blur && <Text>Thank you</Text>}
-        <View style = {styles.buttonStyle}>
-          <Button
-            title="confirm"
-            onPress={() => {
-              handleConfirm();
-            }}
-          />
+        <View style={styles.buttonContainer}>
           <Button
             title="cancel"
             onPress={() => {
               handleCancel();
+            }}
+          />
+          <Button
+            title="confirm"
+            onPress={() => {
+              handleConfirm();
             }}
           />
         </View>
@@ -57,10 +57,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  buttonStyle : {
-    marginHorizontal : '30%',
-    margin : 10,
-  }
+  buttonContainer: {
+    flexDirection: "row",
+    marginHorizontal: "30%",
+    margin: 10,
+  },
 });
 
 export default Input;

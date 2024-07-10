@@ -45,6 +45,7 @@ const Input = ({ inputHandler, isModalVisible, cancelHandler }) => {
             onPress={() => {
               handleConfirm();
             }}
+            disabled = {text.length == 0}
           />
         </View>
       </View>

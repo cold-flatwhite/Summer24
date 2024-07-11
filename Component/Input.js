@@ -83,7 +83,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "yellow",
     alignItems: "center",
-    justifyContent: "center",
     top: '20%'
   },
   buttonContainer: {

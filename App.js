@@ -4,7 +4,6 @@ import {
   SafeAreaView,
   StyleSheet,
   Text,
-  TextInput,
   View,
   ScrollView,
   FlatList,
@@ -15,9 +14,8 @@ import { useState } from "react";
 import GoalItem from "./Component/GoalItem";
 
 export default function App() {
-  const appName = "Summer 2004 Mobile";
+  const appName = "Summer 2024 Mobile";
   const [goals, setGoals] = useState([]);
-  const [receivedText, setReceivedText] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
 
   function handleInputData(data) {
@@ -26,9 +24,9 @@ export default function App() {
       return [...currentGoals, newGoal];
     });
     console.log("callback fn called", data);
-    setReceivedText(data);
     setModalVisible(false);
   }
+
   function handleCancel() {
     setModalVisible(false);
   }
@@ -46,14 +44,16 @@ export default function App() {
     <SafeAreaView style={styles.container}>
       <View style={styles.topContainer}>
         <Header appName={appName} />
-        <Button
-          title="Add a goal"
-          onPress={() => {
-            setModalVisible(true);
-          }}
-          style={styles.buttonStyle}
-        />
+        <View style={styles.buttonContainer}>
+          <Button
+            title="Add a goal"
+            onPress={() => {
+              setModalVisible(true);
+            }}
+          />
+        </View>
       </View>
+
       <View style={styles.bottomContainer}>
         {goals.length === 0 ? (
           <Text style={styles.textStyle}>please input more</Text>
@@ -81,12 +81,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
-    // alignItems: "center",
     justifyContent: "center",
-  },
-  textStyle: {
-    color: "darkmagenta",
-    font: 45,
   },
   topContainer: {
     flex: 1,
@@ -98,13 +93,31 @@ const styles = StyleSheet.create({
     backgroundColor: "yellow",
     alignItems: "center",
     width: "100%",
+    padding : 15
   },
+  buttonContainer: {
+    width: "30%",
+    marginVertical: 10,
+  },
+
   textContainer: {
     color: "darkmagenta",
     padding: 15,
   },
-  buttonStyle: {
-    width: "30%",
-    marginVertical: 10,
+
+
+  textStyle: {
+    color: "darkmagenta",
+    fontSize: 20,
+    padding: 10,
+    borderRadius: 5,
+    backgroundColor: "lightgrey",
   },
+
+
+
+
+
+
+  
 });

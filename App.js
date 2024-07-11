@@ -13,11 +13,15 @@ import { useState } from "react";
 
 export default function App() {
   const appName = "Summer 2004 Mobile";
-
+  const [goals, setGoals] = useState([]);
   const [receivedText, setReceivedText] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
 
   function handleInputData(data) {
+    const newGoal = { text: data, id: Math.random() };
+    setGoals((currentGoals) => {
+      return [...currentGoals, newGoal];
+    });
     console.log("callback fn called", data);
     setReceivedText(data);
     setModalVisible(false);
@@ -38,12 +42,22 @@ export default function App() {
         />
       </View>
       <View style={styles.bottomContainer}>
+ 
         <Input
           inputHandler={handleInputData}
           isModalVisible={modalVisible}
           cancelHandler={handleCancel}
         />
-        <Text style={styles.textStyle}>{receivedText}</Text>
+       {
+          goals.map((goal) => {
+            return (
+              <View key={goal.id} style = {styles.textContainer}>
+              <Text style={styles.textStyle}>{goal.text}</Text>
+              </View>
+            );
+          })
+        }
+
       </View>
 
       <StatusBar style="auto" />
@@ -60,6 +74,7 @@ const styles = StyleSheet.create({
   },
   textStyle: {
     color: "darkmagenta",
+    font : 25,
   },
   topContainer: {
     flex: 1,
@@ -71,4 +86,7 @@ const styles = StyleSheet.create({
     backgroundColor: "yellow",
     alignItems: "center",
   },
+  textContainer : {
+    font : 25,
+  }
 });

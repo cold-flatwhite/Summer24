@@ -63,7 +63,6 @@ const styles = StyleSheet.create({
   },
   topContainer: {
     flex: 1,
-    backgroundColor: "red",
     alignItems: "center",
     justifyContent: "center",
   },
@@ -71,6 +70,5 @@ const styles = StyleSheet.create({
     flex: 4,
     backgroundColor: "yellow",
     alignItems: "center",
-    justifyContent: "center",
   },
 });

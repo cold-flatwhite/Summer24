@@ -1,12 +1,20 @@
-import { View, Text } from 'react-native'
-import React from 'react'
+import { View, Text, StyleSheet } from "react-native";
+import React from "react";
 
-const Header = ({appName}) => {
+const Header = ({ appName }) => {
   return (
     <View>
-      <Text>Welcome to {appName}</Text>
+      <Text style={styles.textStyle}>Welcome to {appName}</Text>
     </View>
-  )
-}
+  );
+};
 
-export default Header
+const styles = StyleSheet.create({
+  textStyle: {
+    color: "darkmagenta",
+    font: 25,
+
+  },
+});
+
+export default Header;

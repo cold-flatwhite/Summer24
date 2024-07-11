@@ -39,6 +39,7 @@ const Input = ({ inputHandler, isModalVisible, cancelHandler }) => {
         />
 
         <TextInput
+          style = {styles.textStyle}
           autoFocus={true}
           placeholder="Type something"
           onBlur={() => {
@@ -92,6 +93,15 @@ const styles = StyleSheet.create({
     height: 100,
     margin: 10,
   },
+  textStyle : {
+    width: "80%",
+    height: 40,
+    borderColor: "purple",
+    borderWidth: 1,
+    borderRadius: 5,
+    paddingHorizontal: 10,
+    marginBottom: 20,
+  }
 });
 
 export default Input;

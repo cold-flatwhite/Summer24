@@ -6,6 +6,7 @@ import {
   Text,
   TextInput,
   View,
+  ScrollView
 } from "react-native";
 import Header from "./Component/Header";
 import Input from "./Component/Input";
@@ -39,25 +40,28 @@ export default function App() {
           onPress={() => {
             setModalVisible(true);
           }}
+          style={styles.buttonStyle}
         />
       </View>
       <View style={styles.bottomContainer}>
- 
         <Input
           inputHandler={handleInputData}
           isModalVisible={modalVisible}
           cancelHandler={handleCancel}
         />
-       {
-          goals.map((goal) => {
-            return (
-              <View key={goal.id} style = {styles.textContainer}>
-              <Text style={styles.textStyle}>{goal.text}</Text>
-              </View>
-            );
-          })
-        }
-
+        {goals.length === 0 ? (
+          <Text>please input more</Text>
+        ) : (
+          <ScrollView>
+            {goals.map((goal) => {
+              return (
+                <View key={goal.id} style={styles.textContainer}>
+                  <Text style={styles.textStyle}>{goal.text}</Text>
+                </View>
+              );
+            })}
+          </ScrollView>
+        )}
       </View>
 
       <StatusBar style="auto" />
@@ -74,7 +78,7 @@ const styles = StyleSheet.create({
   },
   textStyle: {
     color: "darkmagenta",
-    font : 25,
+    font: 45,
   },
   topContainer: {
     flex: 1,
@@ -86,7 +90,12 @@ const styles = StyleSheet.create({
     backgroundColor: "yellow",
     alignItems: "center",
   },
-  textContainer : {
-    font : 25,
-  }
+  textContainer: {
+    color: "darkmagenta",
+    padding: 15,
+  },
+  buttonStyle: {
+    width: "30%",
+    marginVertical: 10,
+  },
 });

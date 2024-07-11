@@ -3,17 +3,23 @@ import React from "react";
 
 const Header = ({ appName }) => {
   return (
-    <View>
-      <Text style={styles.textStyle}>Welcome to {appName}</Text>
+    <View style={styles.headerContainer}>
+      <Text style={styles.headerText}>Welcome to {appName}</Text>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  textStyle: {
-    color: "darkmagenta",
-    font: 25,
-
+  headerContainer: {
+    width: "80%",
+    alignItems: "center",
+    justifyContent: "center",
+    borderColor: "purple", 
+    borderWidth: 2, 
+  },
+  headerText: {
+    fontSize: 19,
+    color: "purple",
   },
 });
 

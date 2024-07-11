@@ -12,6 +12,7 @@ import React, { useState } from "react";
 const Input = ({ inputHandler, isModalVisible, cancelHandler }) => {
   const [text, setText] = useState("");
   const [blur, setBlur] = useState(false);
+
   function handleConfirm() {
     console.log("user typed", text);
     inputHandler(text);
@@ -21,9 +22,10 @@ const Input = ({ inputHandler, isModalVisible, cancelHandler }) => {
     cancelHandler();
     setText("");
   }
+
   return (
-    <Modal animationType="slide" visible={isModalVisible}>
-      <View style={styles.container}>
+    <Modal animationType="slide" transparent={true} visible={isModalVisible}>
+      <View style={styles.modalContainer}>
         {/* alt prop provides alternative text for images, aiding accessibility by describing the image for screen readers and users who can't view it.*/}
         <Image
           style={styles.image}
@@ -39,7 +41,7 @@ const Input = ({ inputHandler, isModalVisible, cancelHandler }) => {
         />
 
         <TextInput
-          style = {styles.textStyle}
+          style={styles.textStyle}
           autoFocus={true}
           placeholder="Type something"
           onBlur={() => {
@@ -77,11 +79,12 @@ const Input = ({ inputHandler, isModalVisible, cancelHandler }) => {
 };
 
 const styles = StyleSheet.create({
-  container: {
+  modalContainer: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "yellow",
     alignItems: "center",
     justifyContent: "center",
+    top: '20%'
   },
   buttonContainer: {
     flexDirection: "row",
@@ -93,7 +96,7 @@ const styles = StyleSheet.create({
     height: 100,
     margin: 10,
   },
-  textStyle : {
+  textStyle: {
     width: "80%",
     height: 40,
     borderColor: "purple",
@@ -101,7 +104,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     paddingHorizontal: 10,
     marginBottom: 20,
-  }
+  },
 });
 
 export default Input;

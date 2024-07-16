@@ -1,108 +1,43 @@
-import { StatusBar } from "expo-status-bar";
-import {
-  Button,
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  View,
-  ScrollView,
-  FlatList,
-} from "react-native";
-import Header from "./Component/Header";
-import Input from "./Component/Input";
-import { useState } from "react";
-import GoalItem from "./Component/GoalItem";
+import { View, Text, Button } from "react-native";
+import React from "react";
+import Home from "./Component/Home";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import GoalDetails from "./Component/GoalDetails";
+
+const Stack = createNativeStackNavigator();
 
 export default function App() {
-  const appName = "Summer 2024 Mobile";
-  const [goals, setGoals] = useState([]);
-  const [modalVisible, setModalVisible] = useState(false);
-
-  function handleInputData(data) {
-    const newGoal = { text: data, id: Math.random() };
-    //use updater function when updating the state variable based on existing values
-    setGoals((currentGoals) => {
-      return [...currentGoals, newGoal];
-    });
-    console.log("callback fn called", data);
-    setModalVisible(false);
-  }
-
-  function dismissModal() {
-    setModalVisible(false);
-  }
-
-  function handleDeleteGoal(deleteId) {
-    console.log("goal deleted", deleteId);
-    setGoals((currentGoals) => {
-      return currentGoals.filter((goal) => {
-        return goal.id != deleteId;
-      });
-    });
-  }
-
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.topContainer}>
-        <Header appName={appName} theme="dark" />
-        <Button
-          title="Add a goal"
-          onPress={() => {
-            setModalVisible(true);
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen
+          name="Home"
+          component={Home}
+          options={{
+            title: "Goal Lists",
+            headerStyle: { backgroundColor: "darkmagenta" },
+            headerTintColor: "white",
           }}
         />
-      </View>
-
-      <Input
-        inputHandler={handleInputData}
-        isModalVisible={modalVisible}
-        cancelHandler={dismissModal}
-      />
-
-      <View style={styles.bottomContainer}>
-        {goals.length === 0 ? (
-          <Text style={styles.textStyle}>Please Add a Goal</Text>
-        ) : (
-          <FlatList
-            renderItem={({ item }) => {
-              return <GoalItem goal={item} deleteHandler={handleDeleteGoal} />;
-            }}
-            data={goals}
-          />
-        )}
-      </View>
-
-      <StatusBar style="auto" />
-    </SafeAreaView>
+        <Stack.Screen
+          name="Details"
+          component={GoalDetails}
+          options={({ navigation, route }) => {
+            return {
+              title: route.params.goalObj.text,
+              headerRight: () => {
+                return (
+                  <Button
+                    title="Warning"
+                    onPress={() => console.log("warning")}
+                  />
+                );
+              },
+            };
+          }}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    justifyContent: "center",
-  },
-  textStyle: {
-    color: "darkmagenta",
-    fontSize: 25,
-  },
-  textContainer: {
-    color: "darkmagenta",
-    backgroundColor: "#aaa",
-    marginVertical: 15,
-    padding: 15,
-    borderRadius: 5,
-  },
-
-  topContainer: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  bottomContainer: {
-    flex: 4,
-    backgroundColor: "#dcd",
-    alignItems: "center",
-  },
-});

@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import React, { useState } from "react";
 
-const Input = ({ inputHandler, isModalVisible, dismissModal }) => {
+const Input = ({ inputHandler, isModalVisible, cancelHandler }) => {
   const [text, setText] = useState("");
   const [blur, setBlur] = useState(false);
 
@@ -20,7 +20,7 @@ const Input = ({ inputHandler, isModalVisible, dismissModal }) => {
   }
 
   function handleCancel() {
-    dismissModal();
+    cancelHandler();
     setText("");
   }
 

@@ -1,7 +1,10 @@
 import React from "react";
 import { StyleSheet, View, Text, Button } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
-const GoalItem = ({ goal, deleteHandler, pressHandler }) => {
+const GoalItem = ({ goal, deleteHandler}) => {
+  const navigation = useNavigation();
+
   return (
     <View key={goal.id} style={styles.textContainer}>
       <Text style={styles.textStyle}>{goal.text}</Text>
@@ -13,7 +16,11 @@ const GoalItem = ({ goal, deleteHandler, pressHandler }) => {
         />
       </View>
       <View stlye={styles.buttonStyle}>
-        <Button title="i" color="black" onPress={() => pressHandler(goal)} />
+        <Button
+          title="i"
+          color="black"
+          onPress={() => navigation.navigate("Details", { goalObj: goal })}
+        />
       </View>
     </View>
   );
@@ -28,7 +35,7 @@ const styles = StyleSheet.create({
     padding: 15,
     justifyContent: "space-between",
     borderRadius: 5,
-    alignItems : "center",
+    alignItems: "center",
   },
   textStyle: {
     color: "darkmagenta",

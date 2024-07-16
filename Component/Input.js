@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import React, { useState } from "react";
 
-const Input = ({ inputHandler, isModalVisible, cancelHandler }) => {
+const Input = ({ inputHandler, isModalVisible, dismissModal }) => {
   const [text, setText] = useState("");
   const [blur, setBlur] = useState(false);
 
@@ -18,60 +18,65 @@ const Input = ({ inputHandler, isModalVisible, cancelHandler }) => {
     inputHandler(text);
     setText("");
   }
+
   function handleCancel() {
-    cancelHandler();
+    dismissModal();
     setText("");
   }
 
   return (
     <Modal animationType="slide" transparent={true} visible={isModalVisible}>
-      <View style={styles.modalContainer}>
-        {/* alt prop provides alternative text for images, aiding accessibility by describing the image for screen readers and users who can't view it.*/}
-        <Image
-          style={styles.image}
-          source={{
-            uri: "https://cdn-icons-png.flaticon.com/512/2617/2617812.png",
-          }}
-          alt="Network Icon"
-        />
-        <Image
-          style={styles.image}
-          source={require("../assets/local-icon.png")}
-          alt="Local Icon"
-        />
-
-        <TextInput
-          style={styles.textStyle}
-          autoFocus={true}
-          placeholder="Type something"
-          onBlur={() => {
-            setBlur(true);
-          }}
-          onFocus={() => {
-            setBlur(false);
-          }}
-          onChangeText={(newText) => {
-            setText(newText);
-          }}
-          autoCapitalize={true}
-          value={text}
-        />
-        {blur && <Text>Thank you</Text>}
-
-        <View style={styles.buttonContainer}>
-          <Button
-            title="cancel"
-            onPress={() => {
-              handleCancel();
+      <View style={styles.container}>
+        <View style={styles.modalView}>
+          <Image
+            style={styles.image}
+            source={{
+              uri: "https://cdn-icons-png.flaticon.com/512/2617/2617812.png",
             }}
+            alt="Network Icon"
           />
-          <Button
-            title="confirm"
-            onPress={() => {
-              handleConfirm();
+          <Image
+            style={styles.image}
+            source={require("../assets/local-icon.png")}
+            alt="Local Icon"
+          />
+
+          <TextInput
+            style={styles.input}
+            autoFocus={true}
+            value={text}
+            placeholder="Type something"
+            onBlur={() => {
+              setBlur(true);
             }}
-            disabled={text.length == 0}
+            onFocus={() => {
+              setBlur(false);
+            }}
+            onChangeText={(newText) => {
+              setText(newText);
+            }}
+            autoCapitalize={true}
           />
+          {blur && <Text>Thank you</Text>}
+          <View style={styles.buttonContainer}>
+            <View style={styles.buttonStyle}>
+              <Button
+                title="cancel"
+                onPress={() => {
+                  handleCancel();
+                }}
+              />
+            </View>
+            <View style={styles.buttonStyle}>
+              <Button
+                title="confirm"
+                onPress={() => {
+                  handleConfirm();
+                }}
+                disabled={text.length == 0}
+              />
+            </View>
+          </View>
         </View>
       </View>
     </Modal>
@@ -79,30 +84,37 @@ const Input = ({ inputHandler, isModalVisible, cancelHandler }) => {
 };
 
 const styles = StyleSheet.create({
-  modalContainer: {
+  container: {
     flex: 1,
-    backgroundColor: "yellow",
     alignItems: "center",
-    top: '20%'
+    justifyContent: "center",
   },
+
   buttonContainer: {
     flexDirection: "row",
-    marginHorizontal: "30%",
-    margin: 10,
   },
+  buttonStyle: {
+    width: "30%",
+    margin: 5,
+  },
+  modalView: {
+    backgroundColor: "#f0f0f0",
+    borderRadius: 20,
+    padding: "10%",
+    alignItems: "center",
+  },
+  input: {
+    borderWidth: 2,
+    borderColor: "purple",
+    width: "50%",
+    padding: 5,
+    color: "dodgerblue",
+    marginVertical: 10,
+  },
+
   image: {
     width: 100,
     height: 100,
-    margin: 10,
-  },
-  textStyle: {
-    width: "80%",
-    height: 40,
-    borderColor: "purple",
-    borderWidth: 1,
-    borderRadius: 5,
-    paddingHorizontal: 10,
-    marginBottom: 20,
   },
 });
 

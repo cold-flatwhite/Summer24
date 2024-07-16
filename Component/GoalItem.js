@@ -13,7 +13,7 @@ const GoalItem = ({ goal, deleteHandler, pressHandler }) => {
         />
       </View>
       <View stlye={styles.buttonStyle}>
-        <Button title="i" color="black" onPress={() => pressHandler()} />
+        <Button title="i" color="black" onPress={() => pressHandler(goal)} />
       </View>
     </View>
   );

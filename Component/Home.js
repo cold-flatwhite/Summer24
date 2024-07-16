@@ -41,9 +41,9 @@ export default function Home({navigation}) {
     });
   }
 
-  function handlePressGoal() {
-    console.log("goal proceed");
-    navigation.navigate("Details");
+  function handlePressGoal(pressedGoal) {
+    console.log("goal proceed", pressedGoal);
+    navigation.navigate("Details", {goalObj : pressedGoal});
   }
 
   return (

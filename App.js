@@ -16,7 +16,7 @@ export default function App() {
           component={Home}
           options={{
             title: "Goal Lists",
-            headerStyle: { backgroundColor: "purple" },
+            headerStyle: { backgroundColor: 'darkmagenta' },
             headerTintColor : 'white'
           }}
         />

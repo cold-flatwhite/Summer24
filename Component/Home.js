@@ -13,7 +13,7 @@ import Input from "./Input";
 import { useState } from "react";
 import GoalItem from "./GoalItem";
 
-export default function Home() {
+export default function Home({navigation}) {
   const appName = "Summer 2024 Mobile";
   const [goals, setGoals] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
@@ -41,6 +41,11 @@ export default function Home() {
     });
   }
 
+  function handlePressGoal() {
+    console.log("goal proceed");
+    navigation.navigate("Details");
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.topContainer}>
@@ -65,7 +70,7 @@ export default function Home() {
         ) : (
           <FlatList
             renderItem={({ item }) => {
-              return <GoalItem goal={item} deleteHandler={handleDeleteGoal} />;
+              return <GoalItem goal={item} deleteHandler={handleDeleteGoal} pressHandler = {handlePressGoal}/>;
             }}
             data={goals}
           />

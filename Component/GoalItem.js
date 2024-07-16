@@ -28,14 +28,17 @@ const styles = StyleSheet.create({
     padding: 15,
     justifyContent: "space-between",
     borderRadius: 5,
+    alignItems : "center",
   },
   textStyle: {
     color: "darkmagenta",
     font: 25,
   },
-  buttonStyle: {    flex: 4,
+  buttonStyle: {
+    flex: 4,
     backgroundColor: "#dcd",
-    alignItems: "center",},
+    alignItems: "center",
+  },
 });
 
 export default GoalItem;

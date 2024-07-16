@@ -20,6 +20,7 @@ export default function App() {
 
   function handleInputData(data) {
     const newGoal = { text: data, id: Math.random() };
+    //use updater function when updating the state variable based on existing values
     setGoals((currentGoals) => {
       return [...currentGoals, newGoal];
     });
@@ -27,7 +28,7 @@ export default function App() {
     setModalVisible(false);
   }
 
-  function handleCancel() {
+  function dismissModal() {
     setModalVisible(false);
   }
 
@@ -43,20 +44,24 @@ export default function App() {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.topContainer}>
-        <Header appName={appName} />
-        <View style={styles.buttonContainer}>
-          <Button
-            title="Add a goal"
-            onPress={() => {
-              setModalVisible(true);
-            }}
-          />
-        </View>
+        <Header appName={appName} theme="dark" />
+        <Button
+          title="Add a goal"
+          onPress={() => {
+            setModalVisible(true);
+          }}
+        />
       </View>
+
+      <Input
+        inputHandler={handleInputData}
+        isModalVisible={modalVisible}
+        cancelHandler={dismissModal}
+      />
 
       <View style={styles.bottomContainer}>
         {goals.length === 0 ? (
-          <Text style={styles.textStyle}>please input more</Text>
+          <Text style={styles.textStyle}>Please Add a Goal</Text>
         ) : (
           <FlatList
             renderItem={({ item }) => {
@@ -65,11 +70,6 @@ export default function App() {
             data={goals}
           />
         )}
-        <Input
-          inputHandler={handleInputData}
-          isModalVisible={modalVisible}
-          cancelHandler={handleCancel}
-        />
       </View>
 
       <StatusBar style="auto" />
@@ -83,6 +83,18 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     justifyContent: "center",
   },
+  textStyle: {
+    color: "darkmagenta",
+    fontSize: 25,
+  },
+  textContainer: {
+    color: "darkmagenta",
+    backgroundColor: "#aaa",
+    marginVertical: 15,
+    padding: 15,
+    borderRadius: 5,
+  },
+
   topContainer: {
     flex: 1,
     alignItems: "center",
@@ -90,34 +102,7 @@ const styles = StyleSheet.create({
   },
   bottomContainer: {
     flex: 4,
-    backgroundColor: "yellow",
+    backgroundColor: "#dcd",
     alignItems: "center",
-    width: "100%",
-    padding : 15
   },
-  buttonContainer: {
-    width: "30%",
-    marginVertical: 10,
-  },
-
-  textContainer: {
-    color: "darkmagenta",
-    padding: 15,
-  },
-
-
-  textStyle: {
-    color: "darkmagenta",
-    fontSize: 20,
-    padding: 10,
-    borderRadius: 5,
-    backgroundColor: "lightgrey",
-  },
-
-
-
-
-
-
-  
 });

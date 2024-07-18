@@ -1,27 +1,34 @@
 import React from "react";
-import { StyleSheet, View, Text, Button } from "react-native";
+import { StyleSheet, View, Text, Button, Pressable } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
-const GoalItem = ({ goal, deleteHandler}) => {
+const GoalItem = ({ goal, deleteHandler }) => {
   const navigation = useNavigation();
 
   return (
     <View key={goal.id} style={styles.textContainer}>
-      <Text style={styles.textStyle}>{goal.text}</Text>
-      <View stlye={styles.buttonStyle}>
-        <Button
-          title="X"
-          color="black"
-          onPress={() => deleteHandler(goal.id)}
-        />
-      </View>
-      <View stlye={styles.buttonStyle}>
-        <Button
-          title="i"
-          color="black"
-          onPress={() => navigation.navigate("Details", { goalObj: goal })}
-        />
-      </View>
+      <Pressable
+        style={styles.pressable}
+        onPress={() => {
+          navigation.navigate("Details", { goalObj: goal });
+        }}
+      >
+        <Text style={styles.textStyle}>{goal.text}</Text>
+        <View stlye={styles.buttonStyle}>
+          <Button
+            title="X"
+            color="black"
+            onPress={() => deleteHandler(goal.id)}
+          />
+        </View>
+        <View stlye={styles.buttonStyle}>
+          {/* <Button
+            title="i"
+            color="black"
+            onPress={() => navigation.navigate("Details", { goalObj: goal })}
+          /> */}
+        </View>
+      </Pressable>
     </View>
   );
 };
@@ -37,6 +44,13 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     alignItems: "center",
   },
+  pressable: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    padding: 15,
+  },
+
   textStyle: {
     color: "darkmagenta",
     font: 25,

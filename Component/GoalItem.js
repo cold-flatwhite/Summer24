@@ -8,6 +8,7 @@ const GoalItem = ({ goal, deleteHandler }) => {
   return (
     <View key={goal.id} style={styles.textContainer}>
       <Pressable
+        android_ripple={{ color: "pink" }}
         style={styles.pressable}
         onPress={() => {
           navigation.navigate("Details", { goalObj: goal });
@@ -20,13 +21,6 @@ const GoalItem = ({ goal, deleteHandler }) => {
             color="black"
             onPress={() => deleteHandler(goal.id)}
           />
-        </View>
-        <View stlye={styles.buttonStyle}>
-          {/* <Button
-            title="i"
-            color="black"
-            onPress={() => navigation.navigate("Details", { goalObj: goal })}
-          /> */}
         </View>
       </Pressable>
     </View>

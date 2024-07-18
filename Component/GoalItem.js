@@ -1,6 +1,7 @@
 import React from "react";
 import { StyleSheet, View, Text, Button, Pressable } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import PressableButton from "./PressableButton";
 
 const GoalItem = ({ goal, deleteHandler }) => {
   const navigation = useNavigation();
@@ -9,7 +10,7 @@ const GoalItem = ({ goal, deleteHandler }) => {
     <View key={goal.id} style={styles.textContainer}>
       <Pressable
         android_ripple={{ color: "pink" }}
-        style = {({pressed}) => {
+        style={({ pressed }) => {
           return [styles.horizontalContainer, pressed && styles.pressableStyle];
         }}
         onPress={() => {
@@ -17,13 +18,12 @@ const GoalItem = ({ goal, deleteHandler }) => {
         }}
       >
         <Text style={styles.textStyle}>{goal.text}</Text>
-        <View stlye={styles.buttonStyle}>
-          <Button
-            title="X"
-            color="black"
-            onPress={() => deleteHandler(goal.id)}
-          />
-        </View>
+        <PressableButton
+          componentStyle={styles.buttonStyle}
+          pressedFunction={() => deleteHandler(goal.id)}
+        >
+          <Text>X</Text>
+        </PressableButton>
       </Pressable>
     </View>
   );
@@ -45,18 +45,18 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     padding: 15,
   },
-  pressableStyle : {
-    opacity : 0.5,
-    backgroundColor : "pink",
+  pressableStyle: {
+    opacity: 0.5,
+    backgroundColor: "pink",
   },
   textStyle: {
     color: "darkmagenta",
     font: 25,
   },
   buttonStyle: {
-    flex: 4,
-    backgroundColor: "#dcd",
-    alignItems: "center",
+    marginLeft: 15,
+    backgroundColor: "grey",
+    padding: 5,
   },
 });
 

@@ -1,12 +1,27 @@
-import { View, Text, Button } from "react-native";
-import React from "react";
+import { View, Text, Button, StyleSheet } from "react-native";
+import React, { useEffect, useState } from "react";
 
 export default function GoalDetails({ navigation, route }) {
-  console.log(route.params);
+  const [textColor, setTextColor] = useState("black");
+
+  React.useEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <Button
+          title="Warning"
+          onPress={() => {
+            setTextColor("red");
+            navigation.setOptions({ title: "Warning!"});
+          }}
+        />
+      ),
+    });
+  }, [navigation])
+  
   return (
     <View>
       {route.params ? (
-        <Text>
+        <Text style={{color : textColor}}>
           You are seeing the details of goal with text :
           {route.params.goalObj.text} and id
           {route.params.goalObj.id}:

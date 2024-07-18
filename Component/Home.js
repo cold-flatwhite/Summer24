@@ -12,6 +12,7 @@ import Header from "./Header";
 import Input from "./Input";
 import { useState } from "react";
 import GoalItem from "./GoalItem";
+import PressableButton from "./PressableButton";
 
 export default function Home({navigation}) {
   const appName = "Summer 2024 Mobile";
@@ -50,12 +51,13 @@ export default function Home({navigation}) {
     <SafeAreaView style={styles.container}>
       <View style={styles.topContainer}>
         <Header appName={appName} theme="dark" />
-        <Button
-          title="Add a goal"
-          onPress={() => {
+        <PressableButton pressedFunction={() => {
             setModalVisible(true);
           }}
-        />
+          componentStyle={styles.textStyle}
+          >
+          <Text>Add a goal</Text>
+        </PressableButton>
       </View>
 
       <Input

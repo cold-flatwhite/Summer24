@@ -22,6 +22,8 @@ const styles = StyleSheet.create({
         backgroundColor: "pink",
       },
     defaultStyle : {
+        margin : 10,
+        padding : 5,
         backgroundColor : "beige",
     }
 });

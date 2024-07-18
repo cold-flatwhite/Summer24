@@ -29,7 +29,7 @@ export default function App() {
           component={GoalDetails}
           options={({route }) => {
             return {
-              title: route.params.goalObj.text,
+              title: route.params ? route.params.goalObj.text : "Details",
             };
           }}
         />

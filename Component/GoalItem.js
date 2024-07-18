@@ -1,27 +1,31 @@
 import React from "react";
-import { StyleSheet, View, Text, Button } from "react-native";
+import { StyleSheet, View, Text, Button, Pressable } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import PressableButton from "./PressableButton";
+import { AntDesign } from "@expo/vector-icons";
 
-const GoalItem = ({ goal, deleteHandler}) => {
+const GoalItem = ({ goal, deleteHandler }) => {
   const navigation = useNavigation();
 
   return (
     <View key={goal.id} style={styles.textContainer}>
-      <Text style={styles.textStyle}>{goal.text}</Text>
-      <View stlye={styles.buttonStyle}>
-        <Button
-          title="X"
-          color="black"
-          onPress={() => deleteHandler(goal.id)}
-        />
-      </View>
-      <View stlye={styles.buttonStyle}>
-        <Button
-          title="i"
-          color="black"
-          onPress={() => navigation.navigate("Details", { goalObj: goal })}
-        />
-      </View>
+      <Pressable
+        android_ripple={{ color: "pink" }}
+        style={({ pressed }) => {
+          return [styles.horizontalContainer, pressed && styles.pressableStyle];
+        }}
+        onPress={() => {
+          navigation.navigate("Details", { goalObj: goal });
+        }}
+      >
+        <Text style={styles.textStyle}>{goal.text}</Text>
+        <PressableButton
+          componentStyle={styles.buttonStyle}
+          pressedFunction={() => deleteHandler(goal.id)}
+        >
+          <AntDesign name="delete" size={24} color="black" />
+        </PressableButton>
+      </Pressable>
     </View>
   );
 };
@@ -32,19 +36,28 @@ const styles = StyleSheet.create({
     backgroundColor: "#aaa",
     marginVertical: 15,
     flexDirection: "row",
-    padding: 15,
     justifyContent: "space-between",
     borderRadius: 5,
     alignItems: "center",
+  },
+  horizontalContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    padding: 15,
+  },
+  pressableStyle: {
+    opacity: 0.5,
+    backgroundColor: "pink",
   },
   textStyle: {
     color: "darkmagenta",
     font: 25,
   },
   buttonStyle: {
-    flex: 4,
-    backgroundColor: "#dcd",
-    alignItems: "center",
+    marginLeft: 15,
+    backgroundColor: "grey",
+    padding: 5,
   },
 });
 

@@ -27,7 +27,7 @@ export default function GoalDetails({ navigation, route }) {
           {route.params.goalObj.id}:
         </Text>
       ) : (
-        <Text>Details</Text>
+        <Text style={{color : textColor}}>Details</Text>
       )}
       <Button
         title="More Details"

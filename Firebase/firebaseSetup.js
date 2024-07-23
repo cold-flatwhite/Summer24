@@ -2,8 +2,16 @@
 import { initializeApp } from "firebase/app";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
-import {apiKey,authDomain , projectId, storageBucket, messagingSenderId, appId} from "@env";
+import { getFirestore } from "firebase/firestore";
 
+import {
+  apiKey,
+  authDomain,
+  projectId,
+  storageBucket,
+  messagingSenderId,
+  appId,
+} from "@env";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -12,8 +20,8 @@ const firebaseConfig = {
   projectId: projectId,
   storageBucket: storageBucket,
   messagingSenderId: messagingSenderId,
-  appId: appId
+  appId: appId,
 };
 
-// Initialize Firebase
-export const app = initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig);
+export const database = getFirestore(app);

@@ -10,22 +10,38 @@ import {
 } from "react-native";
 import Header from "./Header";
 import Input from "./Input";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import GoalItem from "./GoalItem";
 import PressableButton from "./PressableButton";
+import { app } from "../Firebase/firebaseSetup";
+import { writeToDB, deleteFormDb } from "../Firebase/firesotreHelper";
+import { database } from "../Firebase/firebaseSetup";
+import { collection, onSnapshot } from "firebase/firestore";
 
 export default function Home({navigation}) {
+
   const appName = "Summer 2024 Mobile";
+  const collectionName = "goal";
   const [goals, setGoals] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
+  useEffect(() => {
+    onSnapshot(collection(database, collectionName), (querySnapShot) => {
+      let newArray = [];
+      if (!querySnapShot.empty) {
+        querySnapShot.forEach((docSnapShot) => {
+          newArray.push({...docSnapShot.data(), id : docSnapShot.id});
+        });
+      }
+      setGoals(newArray);
+    });
+  },[]);
 
   function handleInputData(data) {
-    const newGoal = { text: data, id: Math.random() };
+    const newGoal = { text: data };
     //use updater function when updating the state variable based on existing values
-    setGoals((currentGoals) => {
-      return [...currentGoals, newGoal];
-    });
-    console.log("callback fn called", data);
+    //call writeDB 
+    writeToDB(newGoal,"goal")
+
     setModalVisible(false);
   }
 
@@ -34,12 +50,7 @@ export default function Home({navigation}) {
   }
 
   function handleDeleteGoal(deleteId) {
-    console.log("goal deleted", deleteId);
-    setGoals((currentGoals) => {
-      return currentGoals.filter((goal) => {
-        return goal.id != deleteId;
-      });
-    });
+    deleteFormDb(deleteId, collectionName);
   }
 
   function handlePressGoal(pressedGoal) {

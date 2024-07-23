@@ -13,8 +13,11 @@ import Input from "./Input";
 import { useState } from "react";
 import GoalItem from "./GoalItem";
 import PressableButton from "./PressableButton";
+import { app } from "../Firebase/firebaseSetup";
 
 export default function Home({navigation}) {
+  console.log(app);
+
   const appName = "Summer 2024 Mobile";
   const [goals, setGoals] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);

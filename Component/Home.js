@@ -25,7 +25,7 @@ export default function Home({navigation}) {
   const [goals, setGoals] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
   useEffect(() => {
-    onSnapshot(collection(database, collectionName), (querySnapShot) => {
+    const unsubscribe = onSnapshot(collection(database, collectionName), (querySnapShot) => {
       let newArray = [];
       if (!querySnapShot.empty) {
         querySnapShot.forEach((docSnapShot) => {
@@ -34,6 +34,9 @@ export default function Home({navigation}) {
       }
       setGoals(newArray);
     });
+    return () => {
+      unsubscribe();
+    };
   },[]);
 
   function handleInputData(data) {

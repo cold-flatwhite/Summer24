@@ -14,21 +14,21 @@ import { useState, useEffect } from "react";
 import GoalItem from "./GoalItem";
 import PressableButton from "./PressableButton";
 import { app } from "../Firebase/firebaseSetup";
-import { writeToDB } from "../Firebase/firesotreHelper";
+import { writeToDB, deleteFormDb } from "../Firebase/firesotreHelper";
 import { database } from "../Firebase/firebaseSetup";
 import { collection, onSnapshot } from "firebase/firestore";
 
 export default function Home({navigation}) {
 
   const appName = "Summer 2024 Mobile";
+  const collectionName = "goal";
   const [goals, setGoals] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
   useEffect(() => {
-    onSnapshot(collection(database, "goal"), (querySnapShot) => {
+    onSnapshot(collection(database, collectionName), (querySnapShot) => {
       let newArray = [];
       if (!querySnapShot.empty) {
         querySnapShot.forEach((docSnapShot) => {
-          console.log(docSnapShot.id)
           newArray.push({...docSnapShot.data(), id : docSnapShot.id});
         });
       }
@@ -50,12 +50,7 @@ export default function Home({navigation}) {
   }
 
   function handleDeleteGoal(deleteId) {
-    console.log("goal deleted", deleteId);
-    setGoals((currentGoals) => {
-      return currentGoals.filter((goal) => {
-        return goal.id != deleteId;
-      });
-    });
+    deleteFormDb(deleteId, collectionName);
   }
 
   function handlePressGoal(pressedGoal) {

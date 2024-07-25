@@ -1,5 +1,6 @@
 import { View, Text, Button, StyleSheet } from "react-native";
 import React, { useEffect, useState } from "react";
+import { updateGoalWarning } from "../Firebase/firesotreHelper";
 
 export default function GoalDetails({ navigation, route }) {
   const [textColor, setTextColor] = useState("black");
@@ -9,14 +10,17 @@ export default function GoalDetails({ navigation, route }) {
       headerRight: () => (
         <Button
           title="Warning"
-          onPress={() => {
+          onPress={async () => {
             setTextColor("red");
             navigation.setOptions({ title: "Warning!"});
+            if (route.params && route.params.goalObj) {
+              await updateGoalWarning(route.params.goalObj.id, "goal");
+            }
           }}
         />
       ),
     });
-  }, [navigation])
+  }, [navigation, route.params])
   
   return (
     <View>

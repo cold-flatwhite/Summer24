@@ -2,7 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { FlatList } from 'react-native';
 import { Text } from 'react-native';
-const GoalUsers = () => {
+import { writeToDB } from '../Firebase/firesotreHelper';
+
+const GoalUsers = ({id}) => {
     const [users, setUsers] = useState([]);
     useEffect(() => {
         async function fetchUserData() {
@@ -11,8 +13,11 @@ const GoalUsers = () => {
                 if (!response.ok) {
                     throw new Error("the request was not successful");
                 }
-                const val = await response.json();
-                setUsers(val);
+                const data = await response.json();
+                data.forEach((userData) => {
+                    writeToDB(userData, `goal/${id}/users`);
+                });
+                setUsers(data);
             } catch (err) {
                 console.log("fetch user data ", err);
             }

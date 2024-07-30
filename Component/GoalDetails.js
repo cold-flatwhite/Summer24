@@ -1,6 +1,7 @@
 import { View, Text, Button, StyleSheet } from "react-native";
 import React, { useEffect, useState } from "react";
 import { updateGoalWarning } from "../Firebase/firesotreHelper";
+import GoalUsers from "./GoalUsers";
 
 export default function GoalDetails({ navigation, route }) {
   const [textColor, setTextColor] = useState("black");
@@ -39,6 +40,7 @@ export default function GoalDetails({ navigation, route }) {
           navigation.push("Details");
         }}
       />
+      <GoalUsers id = {route.params.goalObj.id}/>
     </View>
   );
 }

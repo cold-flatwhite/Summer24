@@ -25,7 +25,8 @@ const LoginScreen = ({ navigation }) => {
         return;
     }
     try {
-        signInWithEmailAndPassword(auth, email, password);
+        const userCred = await signInWithEmailAndPassword(auth, email, password);
+        
     } catch (err) {
         console.log(err);
     }

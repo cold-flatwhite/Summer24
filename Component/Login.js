@@ -1,12 +1,19 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import React, { useState } from "react";
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  StyleSheet,
+} from "react-native";
+import PressableButton from "./PressableButton";
 
 const LoginScreen = ({ navigation }) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const handleRegister = () => {
-    navigation.replace('Signup');
+    navigation.replace("Signup");
   };
 
   const handleLogin = () => {
@@ -30,12 +37,18 @@ const LoginScreen = ({ navigation }) => {
         value={password}
         onChangeText={setPassword}
       />
-      <TouchableOpacity style={styles.button} onPress={handleLogin}>
+      <PressableButton
+        pressedFunction={handleLogin}
+        componentStyle={styles.button}
+      >
         <Text style={styles.buttonText}>Log In</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={handleRegister}>
+      </PressableButton>
+      <PressableButton
+        pressedFunction={handleRegister}
+        componentStyle={styles.button}
+      >
         <Text style={styles.linkText}>New User? Create an account</Text>
-      </TouchableOpacity>
+      </PressableButton>
     </View>
   );
 };
@@ -43,35 +56,35 @@ const LoginScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#fff',
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#fff",
   },
   title: {
     fontSize: 24,
     marginBottom: 20,
-    color: '#800080',
+    color: "#800080",
   },
   input: {
-    width: '80%',
+    width: "80%",
     height: 40,
-    borderColor: '#000',
+    borderColor: "#000",
     borderWidth: 1,
     marginBottom: 10,
     paddingHorizontal: 10,
   },
   button: {
-    backgroundColor: 'blue',
-    paddingVertical: 10,
+    backgroundColor: "white",
     paddingHorizontal: 20,
     borderRadius: 5,
   },
   buttonText: {
-    color: 'white',
+    color: "blue",
+    textAlign: "center",
   },
   linkText: {
-    marginTop: 20,
-    color: 'blue',
+    color: "blue",
+    textAlign: "center",
   },
 });
 

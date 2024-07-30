@@ -1,18 +1,39 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
-import PressableButton from './PressableButton';
+import React, { useState } from "react";
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  StyleSheet,
+} from "react-native";
+import PressableButton from "./PressableButton";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { Alert } from "react-native";
+import { auth } from "../Firebase/firebaseSetup";
 
 const SignupScreen = ({ navigation }) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
-  const handleRegister = () => {
-    // Add your registration logic here
+  const handleSignup = async () => {
+    if (!email || !password || !confirmPassword) {
+        Alert.alert("Error", "Email and Passwords should not be empty");
+        return;
+    }
+    if (password !== confirmPassword) {
+      Alert.alert("Error", "Passwords and confirmpassword should be the same");
+      return;
+    }
+    try {
+        const userCred = await createUserWithEmailAndPassword(auth, email, password);
+    } catch (err) {
+        console.log("create user", err);
+    }
   };
 
   const handleLogin = () => {
-    navigation.replace('Login');
+    navigation.replace("Login");
   };
 
   return (
@@ -39,10 +60,16 @@ const SignupScreen = ({ navigation }) => {
         value={confirmPassword}
         onChangeText={setConfirmPassword}
       />
-      <PressableButton pressedFunction={handleRegister} componentStyle={styles.button}>
+      <PressableButton
+        pressedFunction={handleSignup}
+        componentStyle={styles.button}
+      >
         <Text style={styles.buttonText}>Register</Text>
       </PressableButton>
-      <PressableButton pressedFunction={handleLogin}>
+      <PressableButton
+        pressedFunction={handleLogin}
+        componentStyle={styles.button}
+      >
         <Text style={styles.linkText}>Already Registered? Login</Text>
       </PressableButton>
     </View>
@@ -52,37 +79,35 @@ const SignupScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#fff',
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#fff",
   },
   title: {
     fontSize: 24,
     marginBottom: 20,
-    color: '#800080',
+    color: "#800080",
   },
   input: {
-    width: '80%',
+    width: "80%",
     height: 40,
-    borderColor: '#000',
+    borderColor: "#000",
     borderWidth: 1,
     marginBottom: 10,
     paddingHorizontal: 10,
   },
   button: {
-    backgroundColor: 'blue',
-    paddingVertical: 10,
+    backgroundColor: "white",
     paddingHorizontal: 20,
     borderRadius: 5,
   },
   buttonText: {
-    color: 'white',
-    textAlign: 'center',
+    color: "blue",
+    textAlign: "center",
   },
   linkText: {
-    marginTop: 20,
-    color: 'blue',
-    textAlign: 'center',
+    color: "blue",
+    textAlign: "center",
   },
 });
 

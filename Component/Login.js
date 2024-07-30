@@ -7,17 +7,28 @@ import {
   StyleSheet,
 } from "react-native";
 import PressableButton from "./PressableButton";
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { auth } from "../Firebase/firebaseSetup";
 
 const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+
   const handleRegister = () => {
     navigation.replace("Signup");
   };
 
-  const handleLogin = () => {
-    // Navigate to the Login screen
+  const handleLogin = async () => {
+    if (!email || !password) {
+        Alert.alert("Error", "Email and Passwords should not be empty");
+        return;
+    }
+    try {
+        signInWithEmailAndPassword(auth, email, password);
+    } catch (err) {
+        console.log(err);
+    }
   };
 
   return (

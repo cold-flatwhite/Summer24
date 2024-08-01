@@ -7,7 +7,7 @@ import { useState } from "react";
 import { Image } from "react-native";
 import { StyleSheet } from "react-native";
 
-export default function ImageManager() {
+export default function ImageManager({imageUriHandler}) {
   const [response, requestPermission] = ImagePicker.useCameraPermissions();
   const [imageUri, setImageUri] = useState("");
   async function verifyPermission() {
@@ -26,7 +26,8 @@ export default function ImageManager() {
       const result = await ImagePicker.launchCameraAsync({
         allowsEditing: true,
       });
-      setImageUri(result.uri);
+      setImageUri(result.assets[0].uri);
+      imageUriHandler(result.assets[0].uri);
     } catch (err) {
       console.log(err);
     }

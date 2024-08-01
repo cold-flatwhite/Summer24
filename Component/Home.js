@@ -40,7 +40,7 @@ export default function Home({navigation}) {
   },[]);
 
   function handleInputData(data) {
-    const newGoal = { text: data, owner : auth.currentUser.uid };
+    const newGoal = { text: data.text, owner : auth.currentUser.uid };
     //use updater function when updating the state variable based on existing values
     //call writeDB 
     writeToDB(newGoal,"goal")

@@ -8,10 +8,12 @@ import {
   Image,
 } from "react-native";
 import React, { useState } from "react";
+import ImageManager from "./ImageManager";
 
 const Input = ({ inputHandler, isModalVisible, cancelHandler }) => {
   const [text, setText] = useState("");
   const [blur, setBlur] = useState(false);
+  const [uri, setUri] = useState("");
 
   function handleConfirm() {
     console.log("user typed", text);
@@ -22,6 +24,9 @@ const Input = ({ inputHandler, isModalVisible, cancelHandler }) => {
   function handleCancel() {
     cancelHandler();
     setText("");
+  }
+  function handleUrl(uri) {
+    setUri(uri);
   }
 
   return (
@@ -57,6 +62,7 @@ const Input = ({ inputHandler, isModalVisible, cancelHandler }) => {
             }}
             autoCapitalize={true}
           />
+          <ImageManager />
           {blur && <Text>Thank you</Text>}
           <View style={styles.buttonContainer}>
             <View style={styles.buttonStyle}>

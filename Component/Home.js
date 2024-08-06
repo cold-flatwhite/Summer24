@@ -13,10 +13,10 @@ import Input from "./Input";
 import { useState, useEffect } from "react";
 import GoalItem from "./GoalItem";
 import PressableButton from "./PressableButton";
-import { app } from "../Firebase/firebaseSetup";
+import { app, auth } from "../Firebase/firebaseSetup";
 import { writeToDB, deleteFormDb } from "../Firebase/firesotreHelper";
 import { database } from "../Firebase/firebaseSetup";
-import { collection, onSnapshot } from "firebase/firestore";
+import { collection, onSnapshot, query,where } from "firebase/firestore";
 
 export default function Home({navigation}) {
 
@@ -25,7 +25,7 @@ export default function Home({navigation}) {
   const [goals, setGoals] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
   useEffect(() => {
-    const unsubscribe = onSnapshot(collection(database, collectionName), (querySnapShot) => {
+    const unsubscribe = onSnapshot(query(collection(database, collectionName), where ("owner","==",auth.currentUser.uid )), (querySnapShot) => {
       let newArray = [];
       if (!querySnapShot.empty) {
         querySnapShot.forEach((docSnapShot) => {
@@ -40,7 +40,7 @@ export default function Home({navigation}) {
   },[]);
 
   function handleInputData(data) {
-    const newGoal = { text: data };
+    const newGoal = { text: data.text, owner : auth.currentUser.uid };
     //use updater function when updating the state variable based on existing values
     //call writeDB 
     writeToDB(newGoal,"goal")

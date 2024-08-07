@@ -26,6 +26,7 @@ export default function Home({ navigation }) {
   const collectionName = "goal";
   const [goals, setGoals] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
+  
   useEffect(() => {
     const unsubscribe = onSnapshot(
       query(

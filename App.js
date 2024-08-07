@@ -64,13 +64,13 @@ const AppStack = (
             <PressableButton
               pressedFunction={async () => {
                 try {
-                  signOut(auth);
+                  await signOut(auth);
                 } catch (err) {
-                  console.log(err);
+                  console.error('Error signing out:', err);
                 }
               }}
             >
-              <AntDesign name="logout" size={24} color="black"/>
+              <AntDesign name="logout" size={24} color="black" />
             </PressableButton>
           );
         },

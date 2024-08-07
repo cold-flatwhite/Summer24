@@ -82,13 +82,15 @@ const AppStack = (
 export default function App() {
   const [isUserAuthenticated, setIsUserAuthenticated] = useState(false);
   useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      console.log(user);
       if (user) {
         setIsUserAuthenticated(true);
       } else {
         setIsUserAuthenticated(false);
       }
     });
+    return () => unsubscribe();
   }, []);
   return (
     <NavigationContainer>

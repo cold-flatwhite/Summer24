@@ -6,8 +6,8 @@ import { getDownloadURL, ref } from "firebase/storage";
 import { storage } from "../Firebase/firebaseSetup";
 
 export default function GoalDetails({ navigation, route }) {
-  const [textColor, setTextColor] = useState("black");
   const [imageUri, setImageUri] = useState("");
+
 
   useEffect(() => {
     async function getImageUrl() {

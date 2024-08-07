@@ -7,7 +7,6 @@ import {
   getDocs
 } from "firebase/firestore";
 import { database } from "./firebaseSetup";
-import { onSnapshot } from "firebase/firestore";
 
 export async function writeToDB(data, collectionName) {
   try {

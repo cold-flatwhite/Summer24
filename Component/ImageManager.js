@@ -1,27 +1,27 @@
-import { View, Text, Alert } from "react-native";
-import React from "react";
-import { launchCameraAsync } from "expo-image-picker";
-import { Button } from "react-native";
+import { View, Image, Alert, StyleSheet, Button } from "react-native";
+import React, { useState } from "react";
 import * as ImagePicker from "expo-image-picker";
-import { useState } from "react";
-import { Image } from "react-native";
-import { StyleSheet } from "react-native";
 
-export default function ImageManager({imageUriHandler}) {
+export default function ImageManager({ imageUriHandler }) {
   const [response, requestPermission] = ImagePicker.useCameraPermissions();
   const [imageUri, setImageUri] = useState("");
+
   async function verifyPermission() {
+    console.log(response);
     if (response.granted) {
       return true;
     }
+    //ask for permission
     const permissionResponse = await requestPermission();
     return permissionResponse.granted;
   }
+
   async function takeImageHandler() {
     try {
       const hasPermission = await verifyPermission();
       if (!hasPermission) {
         Alert.alert("You need to give permission to camera");
+        return;
       }
       const result = await ImagePicker.launchCameraAsync({
         allowsEditing: true,
@@ -35,21 +35,22 @@ export default function ImageManager({imageUriHandler}) {
 
   return (
     <View>
-      {imageUri && <Image
-        source={{
-          uri: imageUri,
-        }}
-        style={styles.image}
-      />}
+      {imageUri && (
+        <Image
+          source={{
+            uri: imageUri,
+          }}
+          style={styles.image}
+        />
+      )}
       <Button title="Take an Image" onPress={takeImageHandler} />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-    image: {
-      width: 100,
-      height: 100,
-    },
-  });
-  
+  image: {
+    width: 100,
+    height: 100,
+  },
+});

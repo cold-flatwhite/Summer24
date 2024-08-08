@@ -13,12 +13,12 @@ const styles = StyleSheet.create({
   header: {
     color: "darkmagenta",
     fontSize: 20,
-    borderColor : "darkmagenta",
-    borderWidth: 2, 
-    padding : 5,
-    borderRadius : 5,
-    marginBottom : 10,
-    marginTop : 10,
+    borderColor: "darkmagenta",
+    borderWidth: 2,
+    padding: 5,
+    borderRadius: 5,
+    marginBottom: 10,
+    marginTop: 10,
   },
 });
 

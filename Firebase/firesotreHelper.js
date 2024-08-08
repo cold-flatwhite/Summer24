@@ -4,7 +4,9 @@ import {
   addDoc,
   collection,
   updateDoc,
-  getDocs
+  getDocs,
+  setDoc,
+  getDoc,
 } from "firebase/firestore";
 import { database } from "./firebaseSetup";
 
@@ -13,6 +15,25 @@ export async function writeToDB(data, collectionName) {
     await addDoc(collection(database, collectionName), data);
   } catch (err) {
     console.log(err);
+  }
+}
+
+export async function writeWithIdToDB(data, collectionName, id) {
+  try {
+    await setDoc(doc(database, collectionName, id), data);
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+export async function getADoc(collectionName, id) {
+  try {
+    const docSnap = await getDoc(doc(database, collectionName, id));
+    if (docSnap.exists()) {
+      return docSnap.data();
+    }
+  } catch (err) {
+    console.log("write to db ", err);
   }
 }
 

@@ -3,12 +3,15 @@ import React, { useState, useEffect } from "react";
 import * as Location from "expo-location";
 import { mapsApiKey } from "@env";
 import { useNavigation, useRoute } from "@react-navigation/native";
+import { getADoc, writeWithIdToDB } from "../Firebase/firesotreHelper";
+import { auth } from "../Firebase/firebaseSetup";
 
 const LocationManager = () => {
   const [response, requestPermission] = Location.useForegroundPermissions();
   const [location, setLocation] = useState();
   const navigation = useNavigation();
   const route = useRoute();
+  const authId = auth.currentUser.uid;
   async function verifyPermission() {
     if (response.granted) {
       return true;
@@ -45,6 +48,21 @@ const LocationManager = () => {
     }
   }, [route.params]);
 
+  useEffect(()=> {
+    async function getUserData() {
+      const userData = await getADoc("users", auth.currentUser.uid);
+      if (userData) {
+        setLocation(userData.location);
+      }
+    }
+    getUserData();
+  })
+
+  function saveUserLocation() {
+    writeWithIdToDB({ location }, "users", authId);
+    navigation.navigate("Home");
+  }
+
   return (
     <View>
       <Button title="find my location" onPress={locateUserHandler}></Button>
@@ -60,6 +78,7 @@ const LocationManager = () => {
           style={{ width: 400, height: 200 }}
         />
       )}
+      <Button title="Save My Location" onPress={saveUserLocation} />
     </View>
   );
 };

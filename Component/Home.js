@@ -1,11 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import {
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  View,
-  FlatList,
-} from "react-native";
+import { SafeAreaView, StyleSheet, Text, View, FlatList } from "react-native";
 import Header from "./Header";
 import Input from "./Input";
 import { useState, useEffect } from "react";
@@ -58,6 +52,7 @@ export default function Home({ navigation }) {
       const imageName = uri.substring(uri.lastIndexOf("/") + 1);
       const imageRef = ref(storage, `images/${imageName}`);
       const uploadResult = await uploadBytesResumable(imageRef, blob);
+      console.log(uploadResult)
       return uploadResult.metadata.fullPath;
     } catch (err) {
       console.log("retrieve and upload image", uri);

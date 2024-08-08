@@ -10,6 +10,7 @@ import {
 import React, { useState } from "react";
 import ImageManager from "./ImageManager";
 
+//update Input to receive a prop
 const Input = ({ inputHandler, isModalVisible, cancelHandler }) => {
   const [text, setText] = useState("");
   const [blur, setBlur] = useState(false);
@@ -17,7 +18,7 @@ const Input = ({ inputHandler, isModalVisible, cancelHandler }) => {
 
   function handleConfirm() {
     console.log("user typed", text);
-    inputHandler({text, imageUri});
+    inputHandler({ text, imageUri });
     setText("");
   }
 
@@ -38,12 +39,10 @@ const Input = ({ inputHandler, isModalVisible, cancelHandler }) => {
             source={{
               uri: "https://cdn-icons-png.flaticon.com/512/2617/2617812.png",
             }}
-            alt="Network Icon"
           />
           <Image
             style={styles.image}
             source={require("../assets/local-icon.png")}
-            alt="Local Icon"
           />
 
           <TextInput
@@ -62,23 +61,16 @@ const Input = ({ inputHandler, isModalVisible, cancelHandler }) => {
             }}
             autoCapitalize={true}
           />
-          <ImageManager imageUriHandler ={imageUriHandler}/>
+          <ImageManager imageUriHandler={imageUriHandler} />
           {blur && <Text>Thank you</Text>}
           <View style={styles.buttonContainer}>
             <View style={styles.buttonStyle}>
-              <Button
-                title="cancel"
-                onPress={() => {
-                  handleCancel();
-                }}
-              />
+              <Button title="Cancel" onPress={handleCancel} />
             </View>
             <View style={styles.buttonStyle}>
               <Button
                 title="confirm"
-                onPress={() => {
-                  handleConfirm();
-                }}
+                onPress={handleConfirm}
                 disabled={text.length == 0}
               />
             </View>
@@ -98,6 +90,7 @@ const styles = StyleSheet.create({
 
   buttonContainer: {
     flexDirection: "row",
+    alignItems: "center",
   },
   buttonStyle: {
     width: "30%",

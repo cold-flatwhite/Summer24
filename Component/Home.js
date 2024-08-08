@@ -1,11 +1,9 @@
 import { StatusBar } from "expo-status-bar";
 import {
-  Button,
   SafeAreaView,
   StyleSheet,
   Text,
   View,
-  ScrollView,
   FlatList,
 } from "react-native";
 import Header from "./Header";
@@ -17,7 +15,6 @@ import { app, auth } from "../Firebase/firebaseSetup";
 import { writeToDB, deleteFormDb } from "../Firebase/firesotreHelper";
 import { database } from "../Firebase/firebaseSetup";
 import { collection, onSnapshot, query, where } from "firebase/firestore";
-import { uploadBytes } from "firebase/storage";
 import { storage } from "../Firebase/firebaseSetup";
 import { ref, uploadBytesResumable } from "firebase/storage";
 
@@ -26,7 +23,7 @@ export default function Home({ navigation }) {
   const collectionName = "goal";
   const [goals, setGoals] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
-  
+
   useEffect(() => {
     const unsubscribe = onSnapshot(
       query(
@@ -41,6 +38,9 @@ export default function Home({ navigation }) {
           });
         }
         setGoals(newArray);
+      },
+      (err) => {
+        console.log(err);
       }
     );
     return () => {
@@ -48,7 +48,7 @@ export default function Home({ navigation }) {
     };
   }, []);
 
-  async function retrieveUploadImage(uri) {
+  async function retrieveAndUploadImage(uri) {
     try {
       const response = await fetch(uri);
       if (!response.ok) {
@@ -63,11 +63,12 @@ export default function Home({ navigation }) {
       console.log("retrieve and upload image", uri);
     }
   }
-
+  //To receive data add a parameter
   async function handleInputData(data) {
+    console.log("callback fn called with ", data);
     let imageUri = "";
     if (data.imageUri) {
-      imageUri = await retrieveUploadImage(data.imageUri);
+      imageUri = await retrieveAndUploadImage(data.imageUri);
     }
     const newGoal = {
       text: data.text,
@@ -97,6 +98,7 @@ export default function Home({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.topContainer}>
+        {/* use a prop to pass appName to Header */}
         <Header appName={appName} theme="dark" />
         <PressableButton
           pressedFunction={() => {
@@ -104,7 +106,7 @@ export default function Home({ navigation }) {
           }}
           componentStyle={styles.textStyle}
         >
-          <Text>Add a goal</Text>
+          <Text style={styles.textStyle}>Add a goal</Text>
         </PressableButton>
       </View>
 
@@ -165,5 +167,9 @@ const styles = StyleSheet.create({
     flex: 4,
     backgroundColor: "#dcd",
     alignItems: "center",
+  },
+  buttonStyle: {
+    borderRadius: 5,
+    padding: 10,
   },
 });

@@ -7,13 +7,22 @@ import { storage } from "../Firebase/firebaseSetup";
 
 export default function GoalDetails({ navigation, route }) {
   const [imageUri, setImageUri] = useState("");
+  const [warning, setWarning] = useState(false);
 
+  function warningHanlder() {
+    console.log("warning");
+    setWarning(true);
+    navigation.setOptions({ title: "warning" });
+  }
 
+  // waits till the render is done and then run the effect function
   useEffect(() => {
     async function getImageUrl() {
       if (route.params) {
         try {
-          const uri = await getDownloadURL(ref(storage, route.params.goalObj.image));
+          const uri = await getDownloadURL(
+            ref(storage, route.params.goalObj.image)
+          );
           console.log(uri);
           setImageUri(uri);
         } catch (err) {
@@ -24,36 +33,27 @@ export default function GoalDetails({ navigation, route }) {
     getImageUrl();
   }, []);
 
-  React.useEffect(() => {
+  useEffect(() => {
     navigation.setOptions({
-      headerRight: () => (
-        <Button
-          title="Warning"
-          onPress={async () => {
-            setTextColor("red");
-            navigation.setOptions({ title: "Warning!" });
-            if (route.params && route.params.goalObj) {
-              await updateGoalWarning(route.params.goalObj.id, "goal");
-            }
-          }}
-        />
-      ),
+      headerRight: () => {
+        return <Button title="warning" color="grey" onPress={warningHanlder}/>
+      }
     });
-  }, [navigation, route.params]);
+  }, [navigation]);
 
   return (
     <View>
       {route.params ? (
         <View>
-          <Text style={{ color: textColor }}>
-            You are seeing the details of goal with text :
+        <Text style={warning && styles.warningStyle}>
+        You are seeing the details of goal with text :
             {route.params.goalObj.text} and id
             {route.params.goalObj.id}:
           </Text>
-            <Image
-              source={{ uri: imageUri }}
-              style={{ width: 200, height: 200 }}
-            />
+          <Image
+            source={{ uri: imageUri }}
+            style={{ width: 200, height: 200 }}
+          />
         </View>
       ) : (
         <Text style={{ color: textColor }}>Details</Text>
@@ -68,3 +68,9 @@ export default function GoalDetails({ navigation, route }) {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  warningStyle : {
+    color : "red",
+  }
+})

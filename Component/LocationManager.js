@@ -6,7 +6,7 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 
 const LocationManager = () => {
   const [response, requestPermission] = Location.useForegroundPermissions();
-  const [location, setLocation] = useState([]);
+  const [location, setLocation] = useState();
   const navigation = useNavigation();
   const route = useRoute();
   async function verifyPermission() {
@@ -21,10 +21,11 @@ const LocationManager = () => {
     const hasPermission = verifyPermission();
     if (!hasPermission) {
       Alert.alert("You need to give permission to use location service");
+      return;
     }
     try {
       const result = await Location.getCurrentPositionAsync();
-      console.log(result);
+
       setLocation({
         latitude: result.coords.latitude,
         longitude: result.coords.longitude,
@@ -39,11 +40,10 @@ const LocationManager = () => {
   }
 
   useEffect(() => {
-    if (route.params?.location) {
+    if (route.params) {
       setLocation(route.params.location);
     }
-  }, [route.params?.location]);
-
+  }, [route.params]);
 
   return (
     <View>
@@ -52,12 +52,14 @@ const LocationManager = () => {
         title="let me choose my locaiton"
         onPress={chooseLocationHandler}
       />
-      <Image
-        source={{
-          uri: `https://maps.googleapis.com/maps/api/staticmap?center=${location.latitude},${location.longitude}&zoom=14&size=400x200&maptype=roadmap&markers=color:red%7Clabel:L%7C${location.latitude},${location.longitude}&key=${mapsApiKey}`,
-        }}
-        style={{ width: 400, height: 200 }}
-      />
+      {location && (
+        <Image
+          source={{
+            uri: `https://maps.googleapis.com/maps/api/staticmap?center=${location.latitude},${location.longitude}&zoom=14&size=400x200&maptype=roadmap&markers=color:red%7Clabel:L%7C${location.latitude},${location.longitude}&key=${mapsApiKey}`,
+          }}
+          style={{ width: 400, height: 200 }}
+        />
+      )}
     </View>
   );
 };

@@ -1,13 +1,14 @@
 import { View, Text, Button, Alert, Image } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import * as Location from "expo-location";
 import { mapsApiKey } from "@env";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 
 const LocationManager = () => {
   const [response, requestPermission] = Location.useForegroundPermissions();
   const [location, setLocation] = useState([]);
   const navigation = useNavigation();
+  const route = useRoute();
   async function verifyPermission() {
     if (response.granted) {
       return true;
@@ -36,6 +37,13 @@ const LocationManager = () => {
   function chooseLocationHandler() {
     navigation.navigate("Map");
   }
+
+  useEffect(() => {
+    if (route.params?.location) {
+      setLocation(route.params.location);
+    }
+  }, [route.params?.location]);
+
 
   return (
     <View>

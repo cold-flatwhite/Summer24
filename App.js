@@ -13,6 +13,7 @@ import PressableButton from "./Component/PressableButton";
 import Profile from "./Component/Profile";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { signOut } from "firebase/auth";
+import Map from "./Component/Map";
 const Stack = createNativeStackNavigator();
 
 const defaultSetting = {
@@ -66,7 +67,7 @@ const AppStack = (
                 try {
                   await signOut(auth);
                 } catch (err) {
-                  console.error('Error signing out:', err);
+                  console.error("Error signing out:", err);
                 }
               }}
             >
@@ -76,6 +77,7 @@ const AppStack = (
         },
       }}
     />
+        <Stack.Screen name="Map" component={Map} />
   </>
 );
 

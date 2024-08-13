@@ -11,12 +11,33 @@ import { database } from "../Firebase/firebaseSetup";
 import { collection, onSnapshot, query, where } from "firebase/firestore";
 import { storage } from "../Firebase/firebaseSetup";
 import { ref, uploadBytesResumable } from "firebase/storage";
+import * as Notifications from "expo-notifications";
 
 export default function Home({ navigation }) {
   const appName = "Summer 2024 Mobile";
   const collectionName = "goal";
   const [goals, setGoals] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
+
+  useEffect(() => {
+    async function getToken() {
+      try {
+        if (Platform.OS === "android") {
+          await Notifications.setNotificationChannelAsync("default", {
+            name: "default",
+            importance: Notifications.AndroidImportance.MAX,
+          });
+        }
+        
+        // const tokenData = await Notifications.getExpoPushTokenAsync({
+        //   projectId : ConstantSourceNode
+        // })
+      } catch (err) {
+        console.log(err);
+      }
+    }
+
+  })
 
   useEffect(() => {
     const unsubscribe = onSnapshot(

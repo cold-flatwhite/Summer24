@@ -1,4 +1,4 @@
-import { View, Text, Button } from "react-native";
+import { Linking} from "react-native";
 import React, { useState, useEffect } from "react";
 import Home from "./Component/Home";
 import { NavigationContainer } from "@react-navigation/native";
@@ -14,6 +14,7 @@ import Profile from "./Component/Profile";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { signOut } from "firebase/auth";
 import Map from "./Component/Map";
+import * as Notifications from "expo-notifications";
 const Stack = createNativeStackNavigator();
 
 const defaultSetting = {
@@ -77,9 +78,17 @@ const AppStack = (
         },
       }}
     />
-        <Stack.Screen name="Map" component={Map} />
+    <Stack.Screen name="Map" component={Map} />
   </>
 );
+
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: true,
+    shouldSetBadge: false,
+  }),
+});
 
 export default function App() {
   const [isUserAuthenticated, setIsUserAuthenticated] = useState(false);
@@ -93,6 +102,25 @@ export default function App() {
       }
     });
     return () => unsubscribe();
+  }, []);
+
+  useEffect(() => {
+    const subscription = Notifications.addNotificationReceivedListener(
+      notification => {
+      }
+    );
+    return () => subscription.remove();
+  }, []);
+
+  useEffect(() => {
+    const subscription = Notifications.addNotificationResponseReceivedListener(
+      notification => {
+        const url = notification.notification.request.content.data.url;
+        console.log(url);
+        Linking.openURL(url);
+      }
+    );
+    return () => subscription.remove();
   }, []);
   return (
     <NavigationContainer>

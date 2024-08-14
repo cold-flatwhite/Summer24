@@ -3,6 +3,18 @@ import React from "react";
 
 import * as Notifications from "expo-notifications";
 
+export async function verifyPermission() {
+  try {
+    const response = await Notifications.getPermissionsAsync();
+    if (response.granted) {
+      return true;
+    }
+    const requestResponse = await Notifications.requestPermissionsAsync();
+    return requestResponse.granted;
+  } catch (err) {
+    console.log(err);
+  }
+}
 const NotificationManager = () => {
   async function allowsNotificationsAsync() {
     const settings = await Notifications.getPermissionsAsync();
@@ -21,19 +33,6 @@ const NotificationManager = () => {
         allowAnnouncements: true,
       },
     });
-  }
-
-  async function verifyPermission() {
-    try {
-      const response = await Notifications.getPermissionsAsync();
-      if (!response.granted) {
-        const data = await Notifications.requestPermissionsAsync();
-        return data.granted;
-      }
-      return response.granted;
-    } catch (err) {
-      console.log(err);
-    }
   }
 
   const scheduleNotificationHandler = async () => {

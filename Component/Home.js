@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { SafeAreaView, StyleSheet, Text, View, FlatList } from "react-native";
+import { SafeAreaView, StyleSheet, Text, View, FlatList, Alert } from "react-native";
 import Header from "./Header";
 import Input from "./Input";
 import { useState, useEffect } from "react";
@@ -11,12 +11,40 @@ import { database } from "../Firebase/firebaseSetup";
 import { collection, onSnapshot, query, where } from "firebase/firestore";
 import { storage } from "../Firebase/firebaseSetup";
 import { ref, uploadBytesResumable } from "firebase/storage";
+import * as Notifications from "expo-notifications";
+import Constants from "expo-constants";
 
 export default function Home({ navigation }) {
   const appName = "Summer 2024 Mobile";
   const collectionName = "goal";
   const [goals, setGoals] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
+
+  useEffect(() => {
+    async function getToken() {
+      try {
+        const hasPermission = await verifyPermission();
+        if (!hasPermission) {
+          Alert.alert("You need to give permission for push token");
+          return;
+        }
+        if (Platform.OS === "android") {
+          await Notifications.setNotificationChannelAsync("default", {
+            name: "default",
+            importance: Notifications.AndroidImportance.MAX,
+          });
+        }
+
+        const tokenData = await Notifications.getExpoPushTokenAsync({
+          projectId : Constants.expoConfig.extra.eas.projectId,
+        });
+        console.log(tokenData)
+      } catch (err) {
+        console.log(err);
+      }
+    }
+
+  })
 
   useEffect(() => {
     const unsubscribe = onSnapshot(
